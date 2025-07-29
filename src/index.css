@@ -184,3 +184,157 @@ button:focus-visible {
     @apply bg-background text-foreground;
   }
 }
+@keyframes slide-in-top {
+  0% { opacity: 0; transform: translateY(-50px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-bottom {
+  0% { opacity: 0; transform: translateY(50px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-in-top {
+  animation: slide-in-top 2s ease forwards;
+}
+
+.animate-slide-in-bottom {
+  animation: slide-in-bottom 2s ease forwards;
+}
+
+@keyframes slide-in-left {
+  0% { opacity: 0; transform: translateX(-50px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-right {
+  0% { opacity: 0; transform: translateX(50px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 2s ease forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 2s ease forwards;
+}
+
+@keyframes popout {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-popout{
+  animation: popout 0.8s ease-out forwards;
+}
+
+/* Add this new class to your index.css file */
+
+.main-section-heading {
+    font-size: 3rem; /* Default size for smaller screens (e.g., equivalent to Tailwind's text-5xl or larger) */
+}
+
+@media (min-width: 640px) { /* Small screens (sm) */
+    .main-section-heading {
+        font-size: 4rem; /* For screens >= 640px (e.g., text-6xl) */
+    }
+}
+
+@media (min-width: 768px) { /* Medium screens (md) */
+    .main-section-heading {
+        font-size: 5.5rem; /* For screens >= 768px (e.g., custom large size) */
+    }
+}
+
+@media (min-width: 1024px) { /* Large screens (lg) */
+    .main-section-heading {
+        font-size: 7rem; /* For screens >= 1024px (e.g., custom very large size) */
+    }
+}
+
+@media (min-width: 1280px) { /* Extra large screens (xl) */
+    .main-section-heading {
+        font-size: 8.5rem; /* For screens >= 1280px (e.g., extremely large) */
+    }
+}
+
+.second-main-heading {
+    font-size: 2.5rem; /* Default size, smaller than main */
+}
+
+@media (min-width: 640px) { /* sm breakpoint */
+    .second-main-heading {
+        font-size: 3.5rem;
+    }
+}
+
+@media (min-width: 768px) { /* md breakpoint */
+    .second-main-heading {
+        font-size: 4.8rem; /* A bit smaller than main's 5.5rem */
+    }
+}
+
+@media (min-width: 1024px) { /* lg breakpoint */
+    .second-main-heading {
+        font-size: 6rem; /* A bit smaller than main's 7rem */
+    }
+}
+
+@media (min-width: 1280px) { /* xl breakpoint */
+    .second-main-heading {
+        font-size: 7.5rem; /* A bit smaller than main's 8.5rem */
+    }
+}
+
+/* Add this to your main CSS file (e.g., index.css) */
+
+.border-animation-card {
+  /* Initial border-like appearance */
+  border: 2px solid transparent; /* Start with transparent border */
+  background-clip: padding-box, border-box; /* This is crucial for the border effect */
+  background-origin: padding-box, border-box;
+  background-image: linear-gradient(to right, #000000, #000000), linear-gradient(to right, #6b46c1, #a78bfa); /* Initial black bg, then static purple gradient for initial "border" */
+  transition: background-image 0.3s ease; /* Smooth transition for when the gradient changes on hover */
+  position: relative; /* Needed for pseudo-element positioning */
+  z-index: 1; /* Ensure content is above the pseudo-element */
+}
+
+.border-animation-card::before {
+  content: '';
+  position: absolute;
+  top: -2px; /* Adjust to cover the border width */
+  left: -2px; /* Adjust to cover the border width */
+  right: -2px; /* Adjust to cover the border width */
+  bottom: -2px; /* Adjust to cover the border width */
+  border-radius: inherit; /* Inherit border-radius from parent */
+  background: linear-gradient(45deg, #a03bff, #ff3499, #1ab09f, #2373f4, #9c3cf7); /* Gradient for the moving border */
+  background-size: 400% 400%; /* Make the background larger to allow for movement */
+  z-index: -1; /* Place behind the content */
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.3s ease, background-position 0.3s ease; /* Smooth transitions */
+}
+
+/* On hover, apply the animation and show the pseudo-element */
+.border-animation-card:hover::before {
+  opacity: 1; /* Show the animated border */
+  animation: borderAnimation 3s linear infinite; /* Apply the animation */
+}
+
+@keyframes borderAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
