@@ -395,7 +395,7 @@ const Home = () => {
               className="text-5xl font-bold bg-gradient-to-r from-gray-200 via-gray-500
              to-gray-300 bg-clip-text text-transparent inline-block"
             >
-              Our Leaders
+              Our Inspiration
             </h2>
             <p className="text-gray-400 mt-2 text-sm">
               Meet the visionary leaders of Techno India University
