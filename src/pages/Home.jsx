@@ -1,224 +1,427 @@
-import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import HeroSection from "../components/ui/HeroSection";
+import Marquee from "react-fast-marquee";
 
-const event = [
+const navigation = [
+  { name: "Home", href: "/home", isRouterLink: true },
+  { name: "About", href: "/about", isRouterLink: true },
+  { name: "Event", href: "#events", isRouterLink: false },
+  { name: "Sponsors", href: "#sponsors", isRouterLink: false },
+  { name: "Contact Us", href: "/contact", isRouterLink: true },
+];
+
+const leaders = [
+  {
+    id: 1,
+    name: "Prof. Samiran Chattopadhyay",
+    title: "Pro Vice Chancellor, Techno India University",
+    image: "/images/image 34.png",
+  },
+  {
+    id: 2,
+    name: "Dr. Sujoy Biswas",
+    title: "CEO, Techno India Group",
+    image: "/images/image 35.png",
+  },
+  {
+    id: 3,
+    name: "Dr. Rina Paladhi",
+    title: "Director, Techno India Group",
+    image: "/images/image 34.png",
+  },
+  {
+    id: 4,
+    name: "Dr. Ishan Ghosh",
+    title: "Associate Dean of Student Affairs, Techno India University",
+    image: "/images/image 35.png",
+  },
+];
+
+const events = [
   {
     id: 1,
     title: "AI UNLEASHED",
     description:
       "Landing page for SeaPhantom, an NFT project focusing on innovative and sustainable technologies. Exp...",
     image: "/images/image 34.png",
-    demourl: "#",
   },
   {
     id: 2,
-    title: "IOT Exposition",
+    title: "IOT EXPOSITION",
     description:
       "Landing page for SeaPhantom, an NFT project focusing on innovative and sustainable technologies. Exp...",
     image: "/images/image 35.png",
-    demourl: "#",
   },
+];
+
+const projects = [
+  {
+    id: 1,
+    title: "SLEEPING..",
+    description:
+      "A dynamic platform for showcasing student innovations in AI and IoT.",
+    image: "/images/image 35.png",
+  },
+  {
+    id: 2,
+    title: "POSING PROJECT",
+    description:
+      "Watch and backed by modern design, this site lets you register for events...",
+    image: "/images/image 34.png",
+  },
+  {
+    id: 4,
+    title: "CANDID PROJECT",
+    description:
+      "Organized by batch and backed by modern design, view projects...",
+    image: "/images/image 34.png",
+  },
+  {
+    id: 3,
+    title: "LANDSCAPE PROJECT",
+    description:
+      "This site lets you register for events, view cutting-edge projects...",
+    image: "/images/image 35.png",
+  },
+];
+
+const gallery = [
+  { id: 1, image: "/images/image 35.png" },
+  { id: 2, image: "/images/image 34.png" },
+  { id: 3, image: "/images/image 35.png" },
+  { id: 4, image: "/images/image 34.png" },
+];
+
+const sponsors = [
+  { id: 1, name: "SPONSOR.1", responsiveClass: "" },
+  { id: 2, name: "SPONSOR.1", responsiveClass: "" },
+  { id: 3, name: "SPONSOR.1", responsiveClass: "" },
+  { id: 4, name: "SPONSOR.1", responsiveClass: "" },
+  { id: 5, name: "SPONSOR.1", responsiveClass: "" },
+  { id: 6, name: "SPONSOR.1", responsiveClass: "" },
+  { id: 7, name: "SPONSOR.1", responsiveClass: "" },
+  { id: 8, name: "SPONSOR.1", responsiveClass: "" },
+  { id: 9, name: "SPONSOR.1", responsiveClass: "" },
+  { id: 10, name: "SPONSOR.1", responsiveClass: "" },
 ];
 
 const Home = () => {
   const navigate = useNavigate();
+  const [scrollOpacity, setScrollOpacity] = useState(0.2);
+  const [isIntroVisible, setIsIntroVisible] = useState(false);
+  const [isEventsVisible, setIsEventsVisible] = useState(false);
+  const [isProjectsVisible, setIsProjectsVisible] = useState(false);
+  const [isGalleryVisible, setIsGalleryVisible] = useState(false);
+  const [isLeaderVisible, setIsLeaderVisible] = useState(false);
+  const introSectionRef = useRef(null);
+  const eventsSectionRef = useRef(null);
+  const projectsSectionRef = useRef(null);
+  const gallerySectionRef = useRef(null);
+  const leaderSectionRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      if (scrollTop > 100) {
+        setScrollOpacity(1);
+      } else {
+        setScrollOpacity(0.2);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const observerCallback = (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (entry.target.id === "intro") setIsIntroVisible(true);
+          if (entry.target.id === "events") setIsEventsVisible(true);
+          if (entry.target.id === "projects") setIsProjectsVisible(true);
+          if (entry.target.id === "gallery") setIsGalleryVisible(true);
+          if (entry.target.id === "leader") setIsLeaderVisible(true);
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      threshold: 0.1,
+    });
+
+    const refs = [
+      introSectionRef,
+      eventsSectionRef,
+      projectsSectionRef,
+      gallerySectionRef,
+      leaderSectionRef,
+    ];
+
+    refs.forEach((ref) => {
+      if (ref.current) observer.observe(ref.current);
+    });
+
+    return () => {
+      refs.forEach((ref) => {
+        if (ref.current) {
+          observer.unobserve(ref.current);
+        }
+      });
+    };
+  }, []);
+
   return (
-    <>
-      <section className="min-h-screen">
-        <div className="mx-auto max-w-2xl sm:py-36">
-          <div className="text-center pt-22">
-            <h1 className="text-5xl font-semibold tracking-tight text-balance sm:text-7xl">
-              Technothon
-            </h1>
-            <p className="mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">
-              Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-              lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat.
-            </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <button
-                onClick={() => navigate("/team-registration")}
-                className="px-6 py-2 rounded-[20px] text-blue-600 border border-blue-300 transition-all duration-300 hover:bg-blue-300 hover:text-white hover:scale-105 hover:shadow-[0_0_15px_#93c5fd]">
-                Register
-              </button>
-              <button
-                onClick={() => navigate("/events")}
-                className="text-sm/6 font-semibold bg-transparent border-none cursor-pointer">
-                Learn more <span aria-hidden="true">→</span>
-              </button>
+    <div className="relative w-full min-h-screen overflow-hidden text-white">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0c0014] via-[#220033] to-[#000000]"></div>
+      <div className="absolute inset-0">
+        <div className="w-[900px] h-[900px] bg-purple-700 opacity-30 blur-[220px] rounded-full absolute top-[-250px] left-[-250px]"></div>
+        <div className="w-[700px] h-[700px] bg-blue-500 opacity-20 blur-[200px] rounded-full absolute bottom-[-250px] right-[-200px]"></div>
+      </div>
+      <div
+        className="fixed top-0 left-1/2 transform -translate-x-1/2 w-[900px] h-[250px] bg-gradient-to-r from-purple-500 via-purple-600 to-pink-600 blur-[120px] rounded-full pointer-events-none transition-all duration-300"
+        style={{ zIndex: 1, opacity: scrollOpacity }}
+      ></div>
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <header className="py-6">
+          <nav className="flex items-center justify-between">
+            <div className="flex-shrink-0">
+              <Link to="/">
+                <img
+                  className="h-20 w-auto"
+                  src="/images/technothon.png"
+                  alt="Technothon Logo"
+                />
+              </Link>
             </div>
-          </div>
+            <div className="hidden md:flex items-center justify-center flex-1">
+              <div className="flex items-baseline space-x-4 rounded-full ring-1 ring-gray-200/10 px-6 py-2 bg-white/5 backdrop-blur-sm">
+                {navigation.map((item) =>
+                  item.isRouterLink ? (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    >
+                      {item.name}
+                    </Link>
+                  ) : (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    >
+                      {item.name}
+                    </a>
+                  )
+                )}
+              </div>
+            </div>
+            <div className="flex-shrink-0">
+              <Link
+                to="/login"
+                className="text-sm font-medium text-gray-300 hover:text-white"
+              >
+                Login / Register
+              </Link>
+            </div>
+          </nav>
+        </header>
+
+        <HeroSection />
+
+        <div className="py-4 border-y border-white/10" id="sponsors">
+          <Marquee pauseOnHover={true} speed={50}>
+            {sponsors.map((sponsor) => (
+              <span
+                key={sponsor.id}
+                className={`${sponsor.responsiveClass} mx-8 text-gray-400 text-sm font-semibold`}
+              >
+                {sponsor.name}
+              </span>
+            ))}
+          </Marquee>
         </div>
-        <div className="max-w-full flex items-center justify-center mt-20 gap-x-6 ring-1 py-5 font-semibold ring-gray-300/10">
-          <img src="" alt="" />
-          Google
-          <img src="" alt="" />
-          Youtube
-          <img src="" alt="" />
-          Redbull
-          <img src="" alt="" />
-          Boat
-          <img src="" alt="" />
-          Boult
-        </div>
-      </section>
-      <section className="py-16 px-4 relative">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-3xl font-bold mb-12 text-center">About us</h2>
-          <div className="max-w-5xl flex justify-center items-center text-center">
-            <p className="max-w-3xl text-sm">
-              STEP INTO A WORLD OF INNOVATION WHERE STUDENTS BRING TECHNOLOGY TO
-              LIFE! DISCOVER AI AND IOT-POWERED PROJECTS, REGISTER FOR EXCITING
-              EVENTS, AND BE PART OF A TECH-DRIVEN COMMUNITY SHAPING THE FUTURE.
-              WHETHER YOU'RE HERE TO SHOWCASE, EXPLORE, OR LEARN — THIS PLATFORM
-              IS YOUR LAUNCHPAD.
+
+        <section
+          id="intro"
+          ref={introSectionRef}
+          className={`py-24 transition-all duration-700 ${
+            isIntroVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-10"
+          }`}
+        >
+          <p className="text-center text-gray-300 max-w-3xl mx-auto text-lg leading-relaxed">
+            STEP INTO A WORLD OF INNOVATION WHERE STUDENTS BRING TECHNOLOGY TO
+            LIFE! DISCOVER AI AND IOT-POWERED PROJECTS, REGISTER FOR EXCITING
+          </p>
+        </section>
+
+        <section
+          id="events"
+          ref={eventsSectionRef}
+          className={`py-12 transition-all duration-700 ${
+            isEventsVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-10"
+          }`}
+        >
+          <div className="text-center mb-12">
+            <h2 className="text-5xl font-bold bg-gradient-to-r from-gray-200 via-gray-500 to-gray-300 bg-clip-text text-transparent inline-block">
+              EVENTS
+            </h2>
+            <p className="text-gray-400 mt-2 text-sm">
+              A DYNAMIC PLATFORM FOR SHOWCASING STUDENT INNOVATIONS IN AI AND
+              IOT.
             </p>
           </div>
-        </div>
-      </section>
-      <section className="py-24 px-4 relative">
-        <div className="mx-auto max-w-5xl ">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
-            Featured <span className=""> Events</span>
-          </h2>
-          <p className="text-center mb-12 max-w-2xl mx-auto">
-            A DYNAMIC PLATFORM FOR SHOWCASING STUDENT INNOVATIONS IN AI AND IOT.
-            ORGANIZED BY BATCH AND BACKED BY
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-            {event.map((event, key) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {events.map((event) => (
               <div
-                key={key}
-                className="group ring-1 ring-gray-300/20 hover:shadow-[0_4px_32px_0_rgba(255,255,255,0.15)] hover:scale-101 duration-300 transform transition-all  rounded-lg overflow-hidden shadow-xs">
-                <div className="h-48 overflow-hidden">
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    className="w-full h-full object-cover"
-                  />
+                key={event.id}
+                className="bg-[#1A162D] rounded-lg overflow-hidden p-6 flex flex-col"
+              >
+                <img
+                  src={event.image}
+                  alt={event.title}
+                  className="w-full h-48 object-cover rounded-md mb-4"
+                />
+                <h3 className="text-xl font-bold mb-2">{event.title}</h3>
+                <p className="text-gray-400 text-sm mb-4">
+                  {event.description}
+                </p>
+
+                <div className="mt-auto">
+                  <Link
+                    to="/events"
+                    className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300"
+                  >
+                    View Event
+                  </Link>
                 </div>
-                <div className="p-6 bg-[#18181B]">
-                  <h3 className="text-xl font-semibold mb-1"> {event.title}</h3>
-                  <p className=" text-sm mt-5 text-gray-400">
-                    {event.description}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section
+          id="projects"
+          ref={projectsSectionRef}
+          className={`py-24 transition-all duration-700 ${
+            isProjectsVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-10"
+          }`}
+        >
+          <div className="text-center mb-12">
+            <h2 className="text-5xl font-bold bg-gradient-to-r from-gray-200 via-gray-500 to-gray-300 bg-clip-text text-transparent inline-block">
+              FEATURED PROJECTS
+            </h2>
+            <p className="text-gray-400 mt-2 text-sm">
+              A DYNAMIC PLATFORM FOR SHOWCASING STUDENT INNOVATIONS IN AI AND
+              IOT.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            {projects.map((project) => (
+              <div
+                key={project.id}
+                className="relative group rounded-2xl overflow-hidden h-80"
+              >
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 p-6">
+                  <h3 className="text-2xl font-bold">{project.title}</h3>
+                  <p className="text-gray-300 text-sm mt-1">
+                    {project.description}
                   </p>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-      <section className="">
-        <div className=" py-24 sm:py-32 min-h-screen">
-          <div className="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
-            {/* <h2 className="text-center text-base/7 font-semibold text-indigo-600">Deploy faster</h2> */}
-            <p className="mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight text-balance  sm:text-5xl">
-              Featured Projects
+        </section>
+
+        <section
+          id="gallery"
+          ref={gallerySectionRef}
+          className={`py-12 transition-all duration-700 ${
+            isGalleryVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-10"
+          }`}
+        >
+          <div className="text-center mb-12">
+            <h2 className="text-5xl font-bold bg-gradient-to-r from-gray-200 via-gray-500 to-gray-300 bg-clip-text text-transparent inline-block">
+              GALLERY
+            </h2>
+            <p className="text-gray-400 mt-2 text-sm">
+              A DYNAMIC PLATFORM FOR SHOWCASING STUDENT INNOVATIONS IN AI AND
+              IOT.
             </p>
-            <div className="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
-              <div className="relative lg:row-span-2">
-                <div className="absolute inset-px rounded-lg bg-white lg:rounded-l-4xl"></div>
-                <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
-                  <div className="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
-                    <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
-                      Mobile friendly
-                    </p>
-                    <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                      Anim aute id magna aliqua ad ad non deserunt sunt. Qui
-                      irure qui lorem cupidatat commodo.
-                    </p>
-                  </div>
-                  <div className="@container relative min-h-120 w-full grow max-lg:mx-auto max-lg:max-w-sm">
-                    <div className="absolute inset-x-10 top-10 bottom-0 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-gray-700 bg-gray-900 shadow-2xl">
-                      <img
-                        className="size-full object-cover object-top"
-                        src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-mobile-friendly.png"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5 lg:rounded-l-4xl"></div>
-              </div>
-              <div className="relative max-lg:row-start-1">
-                <div className="absolute inset-px rounded-lg bg-white max-lg:rounded-t-4xl"></div>
-                <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
-                  <div className="px-8 pt-8 sm:px-10 sm:pt-10">
-                    <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
-                      Performance
-                    </p>
-                    <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit
-                      maiores impedit.
-                    </p>
-                  </div>
-                  <div className="flex flex-1 items-center justify-center px-8 max-lg:pt-10 max-lg:pb-12 sm:px-10 lg:pb-2">
-                    <img
-                      className="w-full max-lg:max-w-xs"
-                      src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-performance.png"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div className="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5 max-lg:rounded-t-4xl"></div>
-              </div>
-              <div className="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2">
-                <div className="absolute inset-px rounded-lg bg-white"></div>
-                <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)]">
-                  <div className="px-8 pt-8 sm:px-10 sm:pt-10">
-                    <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
-                      Security
-                    </p>
-                    <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                      Morbi viverra dui mi arcu sed. Tellus semper adipiscing
-                      suspendisse semper morbi.
-                    </p>
-                  </div>
-                  <div className="@container flex flex-1 items-center max-lg:py-6 lg:pb-2">
-                    <img
-                      className="h-[min(152px,40cqw)] object-cover"
-                      src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-security.png"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div className="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5"></div>
-              </div>
-              <div className="relative lg:row-span-2">
-                <div className="absolute inset-px rounded-lg bg-white max-lg:rounded-b-4xl lg:rounded-r-4xl"></div>
-                <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
-                  <div className="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
-                    <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
-                      Powerful APIs
-                    </p>
-                    <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                      Sit quis amet rutrum tellus ullamcorper ultricies libero
-                      dolor eget sem sodales gravida.
-                    </p>
-                  </div>
-                  <div className="relative min-h-120 w-full grow">
-                    <div className="absolute top-10 right-0 bottom-0 left-10 overflow-hidden rounded-tl-xl bg-gray-900 shadow-2xl">
-                      <div className="flex bg-gray-800/40 ring-1 ring-white/5">
-                        <div className="-mb-px flex text-sm/6 font-medium text-gray-400">
-                          <div className="border-r border-b border-r-white/10 border-b-white/20 bg-white/5 px-4 py-2 text-white">
-                            NotificationSetting.jsx
-                          </div>
-                          <div className="border-r border-gray-600/10 px-4 py-2">
-                            App.jsx
-                          </div>
-                        </div>
-                      </div>
-                      <div className="px-6 pt-6 pb-14">
-                        {/* Your code example */}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="pointer-events-none absolute inset-px rounded-lg shadow-sm ring-1 ring-black/5 max-lg:rounded-b-4xl lg:rounded-r-4xl"></div>
-              </div>
-            </div>
           </div>
-        </div>
-      </section>
-    </>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            {gallery.map((item) => (
+              <div
+                key={item.id}
+                className="rounded-2xl overflow-hidden aspect-w-1 aspect-h-1 transform transition duration-300 hover:scale-105 hover:shadow-lg  "
+              >
+                <img
+                  src={item.image}
+                  alt={`Gallery item ${item.id}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section
+          id="leader"
+          ref={leaderSectionRef}
+          className={`py-12 transition-all duration-700 ${
+            isLeaderVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-10"
+          }`}
+        >
+          <div className="text-center mb-12">
+            <h2
+              className="text-5xl font-bold bg-gradient-to-r from-gray-200 via-gray-500
+             to-gray-300 bg-clip-text text-transparent inline-block"
+            >
+              Our Leaders
+            </h2>
+            <p className="text-gray-400 mt-2 text-sm">
+              Meet the visionary leaders of Techno India University
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 px-4 sm:px-8">
+            {leaders.map((leader) => (
+              <div
+                key={leader.id}
+                className="flex flex-col items-center text-center transform transition duration-300 hover:scale-105 hover:shadow-lg hover:bg-white/5 p-4 rounded-xl"
+              >
+                <div className="w-40 h-40 rounded-full overflow-hidden mb-4 ">
+                  <img
+                    src={leader.image}
+                    alt={leader.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <h3 className="text-lg font-semibold">{leader.name}</h3>
+                <p className="text-gray-400 text-sm mt-1">{leader.title}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+    </div>
   );
 };
 

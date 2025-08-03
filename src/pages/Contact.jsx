@@ -26,7 +26,11 @@ const Contact = () => {
       >
         <div className="flex lg:flex-1">
           <Link to="/" className="-m-1.5 p-1.5 flex">
-            <img src="/images/technothon.png" alt="Logo" className="h-15 mx-auto" />
+            <img
+              src="/images/technothon.png"
+              alt="Logo"
+              className="h-15 mx-auto"
+            />
           </Link>
         </div>
 
@@ -52,15 +56,17 @@ const Contact = () => {
       {/* Contact Section */}
       <section className="min-h-screen bg-gradient-to-br from-[#1f0037] via-[#2a004d] to-[#000000] text-white pt-28 pb-10 px-4">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
-
           {/* Form Section */}
           <div className="flex flex-col justify-center">
-            <h2 className="text-5xl font-extrabold mb-4 tracking-widest">CONTACT US</h2>
+            <h2 className="text-5xl font-extrabold mb-4 tracking-widest">
+              CONTACT US
+            </h2>
             <p className="mb-6 text-lg">
               Have a question, suggestion, or want to collaborate?
               <br />
               <span className="text-gray-300">
-                Feel free to reach out! Our team will get back to you as soon as possible.
+                Feel free to reach out! Our team will get back to you as soon as
+                possible.
               </span>
             </p>
 
@@ -108,7 +114,8 @@ const Contact = () => {
               <div className="flex items-center space-x-3">
                 <FaEnvelope className="text-lg" />
                 <span>
-                  EM-4, EM-4/1, EM Block, Sector V, Bidhannagar, Kolkata, West Bengal 700091
+                  EM-4, EM-4/1, EM Block, Sector V, Bidhannagar, Kolkata, West
+                  Bengal 700091
                 </span>
               </div>
               <div className="flex space-x-4 text-2xl mt-4">
@@ -136,7 +143,6 @@ const Contact = () => {
               ></iframe>
             </div>
           </div>
-
         </div>
       </section>
     </>

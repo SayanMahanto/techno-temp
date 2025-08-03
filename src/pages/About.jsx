@@ -1,9 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useNavigate, Link } from "react-router-dom";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+
+const navigation = [
+  { name: "Home", href: "/home", isRouterLink: true },
+  { name: "About", href: "/about", isRouterLink: true },
+  { name: "Event", href: "/events", isRouterLink: true },
+  { name: "Contact Us", href: "/contact", isRouterLink: true },
+];
 
 const About = () => {
   const [scrollOpacity, setScrollOpacity] = useState(0.2);
@@ -158,164 +166,216 @@ const About = () => {
   ];
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden text-white">
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0c0014] via-[#220033] to-[#000000]"></div>
+    <>
+      <div className="relative w-full min-h-screen overflow-hidden text-white">
+        {/* Background Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0c0014] via-[#220033] to-[#000000]"></div>
 
-      {/* Purple + Blue Glow */}
-      <div className="absolute inset-0">
-        <div className="w-[900px] h-[900px] bg-purple-700 opacity-30 blur-[220px] rounded-full absolute top-[-250px] left-[-250px]"></div>
-        <div className="w-[700px] h-[700px] bg-blue-500 opacity-20 blur-[200px] rounded-full absolute bottom-[-250px] right-[-200px]"></div>
-      </div>
-
-      {/* Top Glow */}
-      <div
-        className="fixed top-0 left-1/2 transform -translate-x-1/2 w-[900px] h-[250px] bg-gradient-to-r from-purple-500 via-purple-600 to-pink-600 blur-[120px] rounded-full pointer-events-none transition-all duration-300"
-        style={{ zIndex: 1, opacity: scrollOpacity }}></div>
-
-      <div className="relative z-10 flex flex-col items-center px-6 md:px-20 py-10">
-        {/* Heading */}
-        <div className="w-full text-left my-12 text-5xl">
-          <h1 className="font-bold bg-gradient-to-r from-gray-200 via-gray-500 to-gray-300 bg-clip-text text-transparent leading-normal inline-block main-section-heading">
-            About Us
-          </h1>
-          <p className="text-2xl text-gray-300 mb-10">
-            Come, <span className="text-teal-400 font-semibold">build</span>{" "}
-            with us
-          </p>
+        {/* Purple + Blue Glow */}
+        <div className="absolute inset-0">
+          <div className="w-[900px] h-[900px] bg-purple-700 opacity-30 blur-[220px] rounded-full absolute top-[-250px] left-[-250px]"></div>
+          <div className="w-[700px] h-[700px] bg-blue-500 opacity-20 blur-[200px] rounded-full absolute bottom-[-250px] right-[-200px]"></div>
         </div>
 
-        {/* Content Section */}
-        <div className="flex flex-col md:flex-row items-start justify-between gap-12 w-full relative">
-          {/* Background Logo */}
-          <div className="absolute inset-0 flex justify-start items-start z-0 opacity-5 pointer-events-none">
-            <img
-              src="/images/technothon_nameless.png"
-              alt="Technothon Logo"
-              className="w-500 md:w-300 object-contain relative left-[-30%] top-[-35%]"
-            />
-          </div>
-
-          {/* Left - Images with Wave Animation */}
-          <div ref={imgRef} className="flex gap-5 z-10">
-            {images.map((img, index) => (
-              <div
-                key={index}
-                className="hover:scale-110 transition-transform duration-300 cursor-pointer">
-                <div
-                  className={`opacity-0 ${
-                    isImgVisible
-                      ? index % 2 === 0
-                        ? "animate-slide-in-top"
-                        : "animate-slide-in-bottom"
-                      : ""
-                  }`}
-                  style={{ animationDelay: `${index * 0.2}s` }}>
-                  <img
-                    src={img}
-                    alt={`Event ${index + 1}`}
-                    className={`rounded-2xl w-32 h-72 md:w-36 md:h-80 object-cover ${
-                      index % 2 === 0 ? "mb-10" : "mt-10"
-                    }`}
-                  />
-                </div>
+        {/* Top Glow */}
+        <div
+          className="fixed top-0 left-1/2 transform -translate-x-1/2 w-[900px] h-[250px] bg-gradient-to-r from-purple-500 via-purple-600 to-pink-600 blur-[120px] rounded-full pointer-events-none transition-all duration-300"
+          style={{ zIndex: 1, opacity: scrollOpacity }}
+        ></div>
+        <header className="py-6">
+          <nav className="flex items-center justify-between">
+            <div className="flex-shrink-0">
+              <Link to="/">
+                <img
+                  className="h-20 w-auto"
+                  src="/images/technothon.png"
+                  alt="Technothon Logo"
+                />
+              </Link>
+            </div>
+            <div className="hidden md:flex items-center justify-center flex-1">
+              <div className="flex items-baseline space-x-4 rounded-full ring-1 ring-gray-200/10 px-6 py-2 bg-white/5 backdrop-blur-sm">
+                {navigation.map((item) =>
+                  item.isRouterLink ? (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    >
+                      {item.name}
+                    </Link>
+                  ) : (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    >
+                      {item.name}
+                    </a>
+                  )
+                )}
               </div>
-            ))}
-          </div>
+            </div>
+            <div className="flex-shrink-0">
+              <Link
+                to="/login"
+                className="text-sm font-medium text-gray-300 hover:text-white"
+              >
+                Login / Register
+              </Link>
+            </div>
+          </nav>
+        </header>
 
-          {/* Right - Text */}
-          <div
-            ref={descriptionRef}
-            className={`opacity-0 flex-1 z-10 max-w-xl mt-12
-            ${isDescriptionVisible ? "animate-slide-in-right" : ""}`}>
-            <p className="text-xs uppercase text-gray-400 mb-2">Since 2023</p>
-            <h2 className="text-4xl md:text-5xl font-semibold tracking-wider mb-4">
-              TECHNOTHON
-            </h2>
-            <p className="text-xl leading-relaxed text-gray-300">
-              Technothon, a technical club of Techno India University, was
-              established by Rahul Mahato in 2023. It focuses on inculcating and
-              nurturing innovative ideas in students' minds by turning brute
-              force projects into unique practical solutions. With the help of
-              Artificial Intelligence, Python, Internet of Things and other
-              up-to-date technologies, we aim to transform and envision a new
-              world and a better youth.
+        <div className="relative z-10 flex flex-col items-center px-6 md:px-20 py-10">
+          {/* Heading */}
+          <div className="w-full text-left my-12 text-5xl">
+            <h1 className="font-bold bg-gradient-to-r from-gray-200 via-gray-500 to-gray-300 bg-clip-text text-transparent leading-normal inline-block main-section-heading">
+              About Us
+            </h1>
+            <p className="text-2xl text-gray-300 mb-10">
+              Come, <span className="text-teal-400 font-semibold">build</span>{" "}
+              with us
             </p>
           </div>
-        </div>
 
-        {/* Team Section */}
-        <section className="w-full px-4 md:px-20 py-24 mt-20 text-white relative z-10 min-h-screen">
-          <div className="text-center mb-16 text-4xl">
-            <h1 className="font-bold bg-gradient-to-r from-gray-200 via-gray-500 to-gray-300 bg-clip-text text-transparent mb-20 second-main-heading">
-              Meet the team
-            </h1>
-          </div>
+          {/* Content Section */}
+          <div className="flex flex-col md:flex-row items-start justify-between gap-12 w-full relative">
+            {/* Background Logo */}
+            <div className="absolute inset-0 flex justify-start items-start z-0 opacity-5 pointer-events-none">
+              <img
+                src="/images/technothon_nameless.png"
+                alt="Technothon Logo"
+                className="w-500 md:w-300 object-contain relative left-[-30%] top-[-35%]"
+              />
+            </div>
 
-          {/* Team Cards - Swiper Slider (Carousel Style) */}
-          <Swiper
-            // No 'effect' prop for a standard carousel
-            grabCursor={true}
-            centeredSlides={true} // Keep centeredSlides for the 'middle card larger' effect
-            spaceBetween={30} // Space between cards
-            loop={true}
-            autoplay={{
-              delay: 3000,
-              disableOnInteraction: false,
-            }}
-            navigation={true}
-            modules={[Navigation, Autoplay]} // Only Navigation and Autoplay are needed
-            breakpoints={{
-              // Adjust slidesPerView for responsiveness
-              640: {
-                slidesPerView: 1.5, // 1 centered, 1 partial on side
-                spaceBetween: 20,
-              },
-              768: {
-                slidesPerView: 2.5, // 1 centered, 2 partial on sides
-                spaceBetween: 30,
-              },
-              1024: {
-                slidesPerView: 3, // 1 centered, 2 full on sides (or adjust for more partial)
-                spaceBetween: 40,
-              },
-              1280: {
-                slidesPerView: 3.5, // Even more visible cards on larger screens
-                spaceBetween: 50,
-              },
-              1536: {
-                // 2xl breakpoint
-                slidesPerView: 4.5,
-                spaceBetween: 60,
-              },
-            }}
-            ref={teamSectionRef}
-            className={`opacity-0 mySwiper carousel-swiper-container mb-50 ${
-              isCardVisible ? "animate-popout" : ""
-            } transition-opacity duration-500`} // mb-50 is restored
-          >
-            {teamData.map((member, index) => (
-              <SwiperSlide key={index}>
-                <div className="bg-zinc-900 rounded-2xl p-10 text-center relative overflow-hidden group border-animation-card w-full">
-                  <img
-                    src={member.img}
-                    alt={member.name}
-                    className="w-24 h-24 mx-auto rounded-full object-cover mb-4"
-                  />
-                  <h2 className="text-lg font-semibold mb-2">{member.name}</h2>
-                  <p className="text-gray-400 text-sm">{member.role}</p>
+            {/* Left - Images with Wave Animation */}
+            <div ref={imgRef} className="flex gap-5 z-10">
+              {images.map((img, index) => (
+                <div
+                  key={index}
+                  className="hover:scale-110 transition-transform duration-300 cursor-pointer"
+                >
+                  <div
+                    className={`opacity-0 ${
+                      isImgVisible
+                        ? index % 2 === 0
+                          ? "animate-slide-in-top"
+                          : "animate-slide-in-bottom"
+                        : ""
+                    }`}
+                    style={{ animationDelay: `${index * 0.2}s` }}
+                  >
+                    <img
+                      src={img}
+                      alt={`Event ${index + 1}`}
+                      className={`rounded-2xl w-32 h-72 md:w-36 md:h-80 object-cover ${
+                        index % 2 === 0 ? "mb-10" : "mt-10"
+                      }`}
+                    />
+                  </div>
                 </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+              ))}
+            </div>
 
-          {/* Background text */}
-          <div className="absolute inset-0 flex justify-center items-center bottom-[-90vh] right-[-40vh] opacity-[0.05] text-[10rem] font-semibold pointer-events-none select-none tracking-wider z-[-1] mb-10">
-            DEVELOPEMENT
+            {/* Right - Text */}
+            <div
+              ref={descriptionRef}
+              className={`opacity-0 flex-1 z-10 max-w-xl mt-12
+            ${isDescriptionVisible ? "animate-slide-in-right" : ""}`}
+            >
+              <p className="text-xs uppercase text-gray-400 mb-2">Since 2023</p>
+              <h2 className="text-4xl md:text-5xl font-semibold tracking-wider mb-4">
+                TECHNOTHON
+              </h2>
+              <p className="text-xl leading-relaxed text-gray-300">
+                Technothon, a technical club of Techno India University, was
+                established by Rahul Mahato in 2023. It focuses on inculcating
+                and nurturing innovative ideas in students' minds by turning
+                brute force projects into unique practical solutions. With the
+                help of Artificial Intelligence, Python, Internet of Things and
+                other up-to-date technologies, we aim to transform and envision
+                a new world and a better youth.
+              </p>
+            </div>
           </div>
-        </section>
+
+          {/* Team Section */}
+          <section className="w-full px-4 md:px-20 py-24 mt-20 text-white relative z-10 min-h-screen">
+            <div className="text-center mb-16 text-4xl">
+              <h1 className="font-bold bg-gradient-to-r from-gray-200 via-gray-500 to-gray-300 bg-clip-text text-transparent mb-20 second-main-heading">
+                Meet the team
+              </h1>
+            </div>
+
+            {/* Team Cards - Swiper Slider (Carousel Style) */}
+            <Swiper
+              // No 'effect' prop for a standard carousel
+              grabCursor={true}
+              centeredSlides={true} // Keep centeredSlides for the 'middle card larger' effect
+              spaceBetween={30} // Space between cards
+              loop={true}
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+              }}
+              navigation={true}
+              modules={[Navigation, Autoplay]} // Only Navigation and Autoplay are needed
+              breakpoints={{
+                // Adjust slidesPerView for responsiveness
+                640: {
+                  slidesPerView: 1.5, // 1 centered, 1 partial on side
+                  spaceBetween: 20,
+                },
+                768: {
+                  slidesPerView: 2.5, // 1 centered, 2 partial on sides
+                  spaceBetween: 30,
+                },
+                1024: {
+                  slidesPerView: 3, // 1 centered, 2 full on sides (or adjust for more partial)
+                  spaceBetween: 40,
+                },
+                1280: {
+                  slidesPerView: 3.5, // Even more visible cards on larger screens
+                  spaceBetween: 50,
+                },
+                1536: {
+                  // 2xl breakpoint
+                  slidesPerView: 4.5,
+                  spaceBetween: 60,
+                },
+              }}
+              ref={teamSectionRef}
+              className={`opacity-0 mySwiper carousel-swiper-container mb-50 ${
+                isCardVisible ? "animate-popout" : ""
+              } transition-opacity duration-500`} // mb-50 is restored
+            >
+              {teamData.map((member, index) => (
+                <SwiperSlide key={index}>
+                  <div className="bg-zinc-900 rounded-2xl p-10 text-center relative overflow-hidden group border-animation-card w-full">
+                    <img
+                      src={member.img}
+                      alt={member.name}
+                      className="w-24 h-24 mx-auto rounded-full object-cover mb-4"
+                    />
+                    <h2 className="text-lg font-semibold mb-2">
+                      {member.name}
+                    </h2>
+                    <p className="text-gray-400 text-sm">{member.role}</p>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
+            {/* Background text */}
+            <div className="absolute inset-0 flex justify-center items-center bottom-[-90vh] right-[-40vh] opacity-[0.05] text-[10rem] font-semibold pointer-events-none select-none tracking-wider z-[-1] mb-10">
+              DEVELOPEMENT
+            </div>
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
