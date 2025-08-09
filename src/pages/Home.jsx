@@ -6,22 +6,21 @@ import Marquee from "react-fast-marquee";
 const navigation = [
   { name: "Home", href: "/home", isRouterLink: true },
   { name: "About", href: "/about", isRouterLink: true },
-  { name: "Event", href: "#events", isRouterLink: false },
-  { name: "Sponsors", href: "#sponsors", isRouterLink: false },
+  { name: "Events", href: "/events", isRouterLink: true },
   { name: "Contact Us", href: "/contact", isRouterLink: true },
 ];
 
 const leaders = [
   {
     id: 1,
-    name: "Prof. Samiran Chattopadhyay",
-    title: "Pro Vice Chancellor, Techno India University",
+    name: "Prof. (Dr.) Samiran Chattopadhyay",
+    title: "Vice Chancellor, Techno India University",
     image: "/images/image 34.png",
   },
   {
     id: 2,
     name: "Dr. Sujoy Biswas",
-    title: "CEO, Techno India Group",
+    title: "CEO & Director, Techno India Group",
     image: "/images/image 35.png",
   },
   {
@@ -32,7 +31,7 @@ const leaders = [
   },
   {
     id: 4,
-    name: "Dr. Ishan Ghosh",
+    name: "Mr. Ishan Ghosh",
     title: "Associate Dean of Student Affairs, Techno India University",
     image: "/images/image 35.png",
   },
